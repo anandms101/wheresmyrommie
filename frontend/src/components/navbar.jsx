@@ -1,12 +1,7 @@
 import {
   NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
   NavigationMenuItem,
-  NavigationMenuLink,
   NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
 } from "@/components/ui/navigation-menu";
 import { ModeToggle } from "./mode-toggle";
 import { UserButton } from "@clerk/clerk-react";
@@ -14,7 +9,7 @@ import { UserButton } from "@clerk/clerk-react";
 export default function Navbar() {
   return (
     <>
-      <div className="flex flex-row containe justify-between">
+      <div className="flex flex-row container justify-between shadow-md rounded-sm">
         <NavigationMenu>
           <NavigationMenuList className="container flex justify-between">
             <NavigationMenuItem className="font-welcomeheading text-xl font-bold tracking-wider">
@@ -22,7 +17,7 @@ export default function Navbar() {
             </NavigationMenuItem>
           </NavigationMenuList>
         </NavigationMenu>
-        <div className="flex flex-row space-x-4">
+        <div className="flex flex-row space-x-4 m-2">
           <UserButton />
           <ModeToggle />
         </div>
