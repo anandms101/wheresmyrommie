@@ -2,10 +2,12 @@ import { SignInButton } from "@clerk/clerk-react";
 import TypewriterString from "./typewritter";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "../../mode-toggle";
+import Navbar from "../../navbar";
 
 export default function WelcomeScreen() {
   return (
     <>
+      <Navbar />
       <span className="flex flex-col min-h-screen items-center justify-center">
         <span
           className="lowercase font-welcomeheading text-5xl font-bold"
@@ -19,7 +21,6 @@ export default function WelcomeScreen() {
           ?
         </span>
         <TypewriterString />
-        <ModeToggle />
         <SignInButton>
           <Button
             className="font-button text-lg"
