@@ -24,7 +24,7 @@ export default function WelcomeScreen() {
           <Button
             className="font-button text-lg"
           >
-            Sign In
+            Let&apos;s get started!
           </Button>
         </SignInButton>
       </span>

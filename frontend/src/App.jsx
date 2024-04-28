@@ -1,22 +1,10 @@
 import "./App.css";
-import {
-  SignedIn,
-  SignedOut,
-  UserButton,
-} from "@clerk/clerk-react";
-import WelcomeScreen from "./components/pages/welcomeScreen/welcome-screen";
+import AuthenticationPage from "./components/pages/authenticationScreen/authentication-page";
 
 function App() {
   return (
     <>
-      <header>
-        <SignedOut>
-          <WelcomeScreen />
-        </SignedOut>
-        <SignedIn>
-          <UserButton />
-        </SignedIn>
-      </header>
+      <AuthenticationPage />
     </>
   );
 }
