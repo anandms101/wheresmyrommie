@@ -1,7 +1,6 @@
 import { SignInButton } from "@clerk/clerk-react";
 import TypewriterString from "./typewritter";
 import { Button } from "@/components/ui/button";
-import { ModeToggle } from "../../mode-toggle";
 import Navbar from "../../navbar";
 
 export default function WelcomeScreen() {
@@ -9,11 +8,11 @@ export default function WelcomeScreen() {
     <>
       <Navbar />
       <span className="flex flex-col min-h-screen items-center justify-center">
-        <span
+        <span style={{color: "#49243E"}}
           className="lowercase font-welcomeheading text-5xl font-bold"
         >
           where&apos;s my{" "}
-          <span
+          <span style={{textDecorationColor: "#BB8493"}}
             className="underline"
           >
             roommie
