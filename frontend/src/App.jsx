@@ -1,9 +1,7 @@
 import "./App.css";
 import {
-  RedirectToSignIn,
   SignedIn,
   SignedOut,
-  SignInButton,
   UserButton,
 } from "@clerk/clerk-react";
 import WelcomeScreen from "./components/pages/welcomeScreen/welcome-screen";
@@ -13,8 +11,6 @@ function App() {
     <>
       <header>
         <SignedOut>
-          {/* <SignInButton /> */}
-          {/* <RedirectToSignIn /> */}
           <WelcomeScreen />
         </SignedOut>
         <SignedIn>

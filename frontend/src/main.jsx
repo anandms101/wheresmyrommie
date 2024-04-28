@@ -11,10 +11,14 @@ if (!PUBLISHABLE_KEY) {
   throw new Error("Missing Publishable Key");
 }
 
+import { ThemeProvider } from "@/components/theme-provider";
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
-      <App />
-    </ClerkProvider>
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+        <App />
+      </ClerkProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );
