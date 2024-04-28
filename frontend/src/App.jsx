@@ -1,14 +1,12 @@
-import './App.css'
-import { Button } from "@/components/ui/button"
+import "./App.css";
+import AuthenticationPage from "./components/pages/authenticationScreen/authentication-page";
 
 function App() {
-
   return (
     <>
-      hellow
-      <Button>Click me</Button>
+      <AuthenticationPage />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
