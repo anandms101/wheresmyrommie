@@ -18,7 +18,7 @@ export default function Navbar() {
           </NavigationMenuList>
         </NavigationMenu>
         <div className="flex flex-row space-x-4 m-2">
-          <UserButton />
+          <UserButton afterSignOutUrl="/" />
           <ModeToggle />
         </div>
       </div>

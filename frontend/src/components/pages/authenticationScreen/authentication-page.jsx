@@ -1,49 +1,16 @@
-import { SignedIn, SignedOut, useUser } from "@clerk/clerk-react";
 import WelcomeScreen from "../welcomeScreen/welcome-page";
 import HomePage from "../homeScreen/home-page";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  useNavigate,
-} from "react-router-dom";
-import { useEffect } from "react";
-
-const RedirectToHome = () => {
-  const { user } = useUser();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user) {
-      navigate("/home");
-    }
-  }, [user, navigate]);
-
-  return null;
-};
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import NotFoundPage from "../notfoundScreenF/notFound-page";
 
 export default function AuthenticationPage() {
   return (
     <>
       <Router>
-        <RedirectToHome />
         <Routes>
-          <Route
-            path="/"
-            element={
-              <SignedOut>
-                <WelcomeScreen />
-              </SignedOut>
-            }
-          />
-          <Route
-            path="/home"
-            element={
-              <SignedIn>
-                <HomePage />
-              </SignedIn>
-            }
-          />
+          <Route path="/" element={<WelcomeScreen />} />
+          <Route path="/home" element={<HomePage />} />
+          <Route path="*" element={<NotFoundPage />}></Route>
         </Routes>
       </Router>
     </>
