@@ -7,6 +7,7 @@ import {
   DialogTrigger,
   DialogFooter,
 } from "@/components/ui/dialog";
+import axios from "axios";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -24,16 +25,17 @@ import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useUser } from "@clerk/clerk-react";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import Navbar from "../../navbar";
+import { SignedIn } from "@clerk/clerk-react";
 
 const formSchema = z.object({
   email: z.string().email(),
   firstName: z.string().min(4, { message: "Name is too short" }),
   lastname: z.string().min(4, { message: "Name is too short" }),
-  age: z
-    .number()
-    .int()
-    .positive()
-    .min(13, { message: "You must be 13 years or older" }),
+  age: z.string(),
   bio: z.string().max(300, { message: "Bio is too long" }),
   profilePicture: z.string(),
   occupation: z.string(),
@@ -41,11 +43,11 @@ const formSchema = z.object({
   petOwnership: z.enum(["Pet Owner", "Not a Pet Owner"]),
   cleanliness: z.enum(["Very Clean", "Somewhat Clean", "Not Very Clean"]),
   sleepSchedule: z.enum(["Early Bird", "Night Owl", "Flexible"]),
-  desiredMoveInDate: z.date(),
-  budget: z.number(),
+  desiredMoveInDate: z.string(),
+  budget: z.string(),
   location: z.string(),
-  interests: z.array(z.string()),
-  roomNumber: z.number(),
+  interests: z.string(),
+  roomNumber: z.string(),
 });
 
 export default function DetailsForm() {
@@ -54,11 +56,32 @@ export default function DetailsForm() {
   });
 
   function onSubmit(values) {
-    console.log(values);
+    console.log("Form values:", values);
+    axios
+      .post("http://localhost:3000/users", values)
+      .then((res) => {
+        console.log("posting response: ", res);
+      })
+      .catch((err) => console.error(err));
   }
+
+  const { user } = useUser();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!user) {
+      navigate("/");
+    }
+  }, [user, navigate]);
+
+  function navigateToHomePage() {
+    navigate("/home");
+  }
+
 
   return (
     <>
+    <Navbar />
+    <SignedIn>
       <div className="w-1/2 flex flex-col mt-8">
         {/* heading */}
         <h1 className="text-4xl font-bold text-center mb-4">Profile</h1>
@@ -259,12 +282,13 @@ export default function DetailsForm() {
             />
             <DialogFooter>
               {/* need to add func */}
-              <Button variant="outline">Cancel</Button>
+              <Button onClick={() => navigateToHomePage()} variant="outline">Cancel</Button>
               <Button type="submit">Submit</Button>
             </DialogFooter>
           </form>
         </Form>
       </div>
+      </SignedIn>
     </>
   );
 }
