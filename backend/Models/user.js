@@ -16,7 +16,7 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     age: {
-      type: Number,
+      type: String,
     },
     bio: {
       type: String,
@@ -44,7 +44,7 @@ const userSchema = new mongoose.Schema(
       enum: ["Early Bird", "Night Owl", "Flexible"],
     },
     desiredMoveInDate: {
-      type: Date,
+      type: String,
     },
     budget: {
       type: Number,
@@ -53,10 +53,10 @@ const userSchema = new mongoose.Schema(
       type: String,
     },
     interests: {
-      type: [String],
+      type: String,
     },
     roomNumber: {
-      type: Number,
+      type: String,
     },
   },
   { timestamps: true }
