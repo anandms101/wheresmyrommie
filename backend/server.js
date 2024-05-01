@@ -30,6 +30,19 @@ app.get("/users", async (req, res) => {
   res.json(users);
 });
 
+app.post("/users", async (req, res) => {
+  const user = new User(req.body);
+  await user.save();
+  res.json(user);
+});
+
+app.delete("/users/:id", async (req, res) => {
+  const { id } = req.params;
+  await User.findByIdAndDelete(id)
+    .then(() => res.json({ message: "User deleted successfully" }))
+    .catch(err => res.status(500).json({ error: err.message }));
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
