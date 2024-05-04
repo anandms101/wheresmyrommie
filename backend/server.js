@@ -60,14 +60,13 @@ app.post(
     const svix_id = headers["svix-id"];
     const svix_timestamp = headers["svix-timestamp"];
     const svix_signature = headers["svix-signature"];
-    console.log("WEBHOOK CALLED start");
-    console.log("headers", headers);
+
     if (!svix_id || !svix_timestamp || !svix_signature) {
       return new Response("Error occured -- no svix headers", {
         status: 400,
       });
     }
-    console.log("WEBHOOK CALLED end");
+
     const wh = new Webhook(WEBHOOK_SECRET);
 
     let evt;
@@ -78,6 +77,7 @@ app.post(
         "svix-timestamp": svix_timestamp,
         "svix-signature": svix_signature,
       });
+      console.log("EVT DATA: ", evt.data);
     } catch (err) {
       console.log("Error verifying webhook:", err.message);
       return res.status(400).json({
