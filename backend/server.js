@@ -4,12 +4,15 @@ const cors = require("cors");
 require("dotenv").config();
 const { Webhook } = require("svix");
 const bodyParser = require("body-parser");
+var morgan = require("morgan");
 
 const User = require("./Models/user");
 
 var app = express();
 app.use(cors());
 app.use(express.json());
+
+app.use(morgan("dev"));
 
 const mongourl = process.env.MONGO_DB_URI;
 const port = process.env.PORT || 5000;
@@ -27,9 +30,23 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+// get user by email
 app.get("/users", async (req, res) => {
-  const users = await User.find();
-  res.json(users);
+  try {
+    const { email } = req.query;
+    if (email) {
+      const user = await User.findOne({ email: email });
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.json(user);
+    } else {
+      const users = await User.find();
+      res.json(users);
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 app.post("/users", async (req, res) => {

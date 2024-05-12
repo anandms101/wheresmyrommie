@@ -33,7 +33,7 @@ export default function HomePage() {
     console.log("home-page userEmail", userEmail);
 
     return axios
-      .get(`http://localhost:3000/users?q=email=${userEmail}`)
+      .get(`http://localhost:3000/users?email=${userEmail}`)
       .then((res) => {
         console.log("home-page res", res.data);
 
@@ -68,7 +68,7 @@ export default function HomePage() {
     <>
       <Navbar />
       <SignedIn>
-        { isProfileCompleted ? <CompleteProfile /> : <InCompleteProfile />}
+        { !isProfileCompleted ? <CompleteProfile /> : <InCompleteProfile />}
       </SignedIn>
     </>
   );
