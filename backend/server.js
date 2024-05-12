@@ -4,12 +4,15 @@ const cors = require("cors");
 require("dotenv").config();
 const { Webhook } = require("svix");
 const bodyParser = require("body-parser");
+var morgan = require("morgan");
 
 const User = require("./Models/user");
 
 var app = express();
 app.use(cors());
 app.use(express.json());
+
+app.use(morgan("dev"));
 
 const mongourl = process.env.MONGO_DB_URI;
 const port = process.env.PORT || 5000;
@@ -27,9 +30,23 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+// get user by email
 app.get("/users", async (req, res) => {
-  const users = await User.find();
-  res.json(users);
+  try {
+    const { email } = req.query;
+    if (email) {
+      const user = await User.findOne({ email: email });
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+      res.json(user);
+    } else {
+      const users = await User.find();
+      res.json(users);
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 });
 
 app.post("/users", async (req, res) => {
@@ -90,6 +107,18 @@ app.post(
     const eventType = evt.type;
     console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
     console.log("Webhook body:", evt.data);
+
+    //post the data to mongodb
+    if (eventType === "user.created") {
+      const userBody = {
+        email: evt.data.email_addresses[0].email_address,
+        firstName: evt.data.first_name,
+        lastName: evt.data.last_name,
+      };
+      console.log("User Body: ", userBody);
+      const user = new User(userBody);
+      await user.save().then(() => console.log("User saved to MongoDB"));
+    }
 
     return res.status(200).json({
       success: true,
