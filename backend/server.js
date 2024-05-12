@@ -35,7 +35,7 @@ app.get("/users", async (req, res) => {
   try {
     const { email } = req.query;
     if (email) {
-      const user = await User.findOne({ email: { $ne: email } });
+      const user = await User.find({ email: { $ne: email } });
       res.json(user);
     } else {
       const users = await User.find();
