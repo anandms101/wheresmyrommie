@@ -30,20 +30,31 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
-// get user by email
+// get users except the one with the email, or get all
 app.get("/users", async (req, res) => {
   try {
     const { email } = req.query;
     if (email) {
-      const user = await User.findOne({ email: email });
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
+      const user = await User.find({ email: { $ne: email } });
       res.json(user);
     } else {
       const users = await User.find();
       res.json(users);
     }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// get user by email
+app.get("/user", async (req, res) => {
+  try {
+    const { email } = req.query;
+    const user = await User.findOne({ email: email });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
