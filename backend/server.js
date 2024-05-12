@@ -91,6 +91,18 @@ app.post(
     console.log(`Webhook with an ID of ${id} and type of ${eventType}`);
     console.log("Webhook body:", evt.data);
 
+    //post the data to mongodb
+    if (eventType === "user.created") {
+      const userBody = {
+        email: evt.data.email_addresses[0].email_address,
+        firstName: evt.data.first_name,
+        lastName: evt.data.last_name,
+      };
+      console.log("User Body: ", userBody);
+      const user = new User(userBody);
+      await user.save().then(() => console.log("User saved to MongoDB"));
+    }
+
     return res.status(200).json({
       success: true,
       message: "Webhook received",
