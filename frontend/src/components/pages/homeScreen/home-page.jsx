@@ -2,25 +2,28 @@ import Navbar from "../../navbar";
 import { SignedIn, useUser } from "@clerk/clerk-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import DetailsForm from "../detailsform/detailsForm";
 import axios from "axios";
-import { Button } from "@/components/ui/button";
+import { useState } from "react";
+
+import CompleteProfile from "./completeProfile";
+import InCompleteProfile from "./inCompleteProfile";
 
 export default function HomePage() {
   const { user } = useUser();
   const navigate = useNavigate();
+
+  const [isProfileCompleted, setIsProfileCompleted] = useState(false);  
+
   useEffect(() => {
     if (!user) {
       navigate("/");
     }
-    // IsUserProfileIsCompleted();
   }, [user, navigate]);
 
-  function navigateToDetailsPage() {
-    navigate("/details");
-  }
+  useEffect(() => {
+    IsUserProfileIsCompleted().then(setIsProfileCompleted);
+  }, []);
 
-  // check if any user details is missing from mongoDB
   function IsUserProfileIsCompleted() {
     if (!user) {
       return Promise.resolve(false);
@@ -61,21 +64,11 @@ export default function HomePage() {
       });
   }
 
-  const InCompleteProfile = () => {
-    return (
-      <div className="flex flex-col justify-center items-center min-h-screen">
-        <Button onClick={() => navigateToDetailsPage()}>
-          Please complete your profile!
-        </Button>
-      </div>
-    );
-  };
-
   return (
     <>
       <Navbar />
       <SignedIn>
-        {IsUserProfileIsCompleted() === true ? null : <InCompleteProfile />}
+        { isProfileCompleted ? <CompleteProfile /> : <InCompleteProfile />}
       </SignedIn>
     </>
   );
