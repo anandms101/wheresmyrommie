@@ -45,11 +45,15 @@ export default function CompleteProfile() {
     });
   }
 
+function mailUser(email){
+  if(email)
+    window.location.href = `mailto:${email}`;
+}
   const CardComponent = (props) => {
     const user = props.user;
     return (
       <>
-        <div className="flex m-4">
+        <div className="flex w-1/3">
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Card>
@@ -77,7 +81,7 @@ export default function CompleteProfile() {
             </AlertDialogTrigger>
             <AlertDialogContent>
               <AlertDialogHeader>
-                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                <AlertDialogTitle>{user.firstName}</AlertDialogTitle>
                 <AlertDialogDescription>
                   <p>{user.occupation}</p>
                   <p>{user.age}</p>
@@ -90,11 +94,12 @@ export default function CompleteProfile() {
                   <p>{user.budget}</p>
                   <p>{user.location}</p>
                   <p>{user.interests}</p>
+                  <p>{user.email}</p>
                 </AlertDialogDescription>
               </AlertDialogHeader>
               <AlertDialogFooter>
                 <AlertDialogCancel>Cancel</AlertDialogCancel>
-                <AlertDialogAction>Continue</AlertDialogAction>
+                <AlertDialogAction onClick={mailUser}>Reach Out On Email</AlertDialogAction>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
@@ -105,7 +110,7 @@ export default function CompleteProfile() {
 
   return (
     <>
-      <div className="flex flex-row mt-4">
+      <div className="flex flex-row mt-4 flex-wrap">
         {usersData &&
           usersData.map((user) => {
             console.log("userProp", user);
