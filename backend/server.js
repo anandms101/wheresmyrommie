@@ -141,3 +141,12 @@ app.post(
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
+
+// Express will serve up production assets
+app.use(express.static('../frontend/dist'));
+
+// Express will serve up the front-end index.html file if it doesn't recognize the route
+const path = require('path');
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../frontend', 'dist', 'index.html'));
+});
