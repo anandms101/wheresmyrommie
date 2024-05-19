@@ -53,7 +53,7 @@ function mailUser(email){
     const user = props.user;
     return (
       <>
-        <div className="flex w-1/3">
+        <div className="flex w-1/3 p-4">
           <AlertDialog>
             <AlertDialogTrigger asChild>
               <Card>
@@ -75,7 +75,7 @@ function mailUser(email){
                   <p>{user.interests}</p>
                 </CardContent>
                 <CardFooter>
-                  <p>Card Footer</p>
+                  {/* <p>Card Footer</p> */}
                 </CardFooter>
               </Card>
             </AlertDialogTrigger>
